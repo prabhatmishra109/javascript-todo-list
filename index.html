@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>FlowTask — Animated To-Do List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="FlowTask home">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span>flowtask<span class="brand-dot">.</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="today-label" id="today-label"></span>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle light and dark theme" title="Toggle theme">
+          <svg id="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.64 5.64l1.42 1.42m9.88 9.88 1.42 1.42m0-12.72-1.42 1.42m-9.88 9.88-1.42 1.42"/><circle cx="12" cy="12" r="4"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse-dot"></span> YOUR PERSONAL WORKSPACE</div>
+        <h1>Make room for<br><span>what matters.</span></h1>
+        <p>A calmer way to plan your day. One small win at a time.</p>
+      </div>
+      <div class="hero-orbit" aria-hidden="true">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="orbit-core"><span>✦</span></div>
+        <span class="orbit-star star-a">✧</span><span class="orbit-star star-b">✦</span><span class="orbit-star star-c">✧</span>
+      </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Task statistics">
+      <article class="stat-card stat-total">
+        <div class="stat-top"><span class="stat-icon">◈</span><span class="stat-caption">ALL TASKS</span></div>
+        <div class="stat-number" id="total-count">0</div>
+        <div class="stat-foot">Things on your radar</div>
+      </article>
+      <article class="stat-card stat-done">
+        <div class="stat-top"><span class="stat-icon">✓</span><span class="stat-caption">COMPLETED</span></div>
+        <div class="stat-number" id="completed-count">0</div>
+        <div class="stat-foot">Look at you go!</div>
+      </article>
+      <article class="stat-card stat-left">
+        <div class="stat-top"><span class="stat-icon">◷</span><span class="stat-caption">IN PROGRESS</span></div>
+        <div class="stat-number" id="remaining-count">0</div>
+        <div class="stat-foot">Your next little wins</div>
+      </article>
+    </section>
+
+    <section class="progress-panel">
+      <div class="progress-info">
+        <div><span class="section-kicker">DAILY MOMENTUM</span><h2>You're building good habits.</h2></div>
+        <div class="progress-percent" id="progress-text">0%</div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+      <div class="progress-bottom"><span>Keep showing up for yourself.</span><span id="progress-caption">0 of 0 completed</span></div>
+    </section>
+
+    <section class="workspace">
+      <div class="section-heading">
+        <div><span class="section-kicker">THE PLAN</span><h2>Your tasks<span class="heading-period">.</span></h2></div>
+        <span class="task-count-pill"><span class="tiny-dot"></span><span id="visible-count">0 tasks</span></span>
+      </div>
+
+      <div class="task-composer panel">
+        <div class="composer-heading"><div class="composer-icon">✳</div><div><h3 id="form-title">Add a new task</h3><p>Small steps make big things happen.</p></div></div>
+        <form id="task-form">
+          <label class="sr-only" for="task-input">Task title</label>
+          <div class="input-wrap"><span class="input-sparkle">✦</span><input id="task-input" type="text" placeholder="What would you like to get done?" maxlength="180" required autocomplete="off" /><button class="submit-button" id="submit-btn" type="submit"><span>Add task</span><span class="button-arrow">↗</span></button></div>
+          <div class="form-options">
+            <label class="field-label" for="priority-input">PRIORITY
+              <select id="priority-input"><option value="medium">Medium</option><option value="high">High</option><option value="low">Low</option></select>
+            </label>
+            <label class="field-label" for="date-input">DUE DATE
+              <input id="date-input" type="date" />
+            </label>
+            <button class="text-button" id="cancel-edit" type="button" hidden>Cancel edit</button>
+          </div>
+          <p class="form-error" id="form-error" role="alert"></p>
+        </form>
+      </div>
+
+      <div class="task-toolbar">
+        <div class="filter-tabs" role="group" aria-label="Filter tasks">
+          <button class="filter-btn active" type="button" data-filter="all">All <span id="all-filter-count">0</span></button>
+          <button class="filter-btn" type="button" data-filter="active">To do <span id="active-filter-count">0</span></button>
+          <button class="filter-btn" type="button" data-filter="completed">Done <span id="done-filter-count">0</span></button>
+        </div>
+        <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2"/></svg><input id="search-input" type="search" placeholder="Find a task..." aria-label="Search tasks" /></label>
+      </div>
+
+      <div class="task-list" id="task-list" aria-live="polite"></div>
+      <div class="empty-state" id="empty-state">
+        <div class="empty-illustration"><span class="empty-circle">✓</span><span class="empty-spark spark-one">✦</span><span class="empty-spark spark-two">✧</span></div>
+        <h3>Your space is wide open.</h3><p>Add a task above and make today count.</p>
+      </div>
+      <div class="list-footer"><span id="footer-message">A little progress is still progress.</span><button class="clear-button" id="clear-completed" type="button">Clear completed ↗</button></div>
+    </section>
+    <footer class="footer"><span>Made for your next big thing <span class="footer-heart">♥</span></span><span>FLOWTASK © <span id="year"></span></span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
